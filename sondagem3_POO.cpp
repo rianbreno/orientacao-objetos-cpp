@@ -15,12 +15,18 @@ private:
 public:
     Funcionario() {
         // Construtor padrão para o array
+        cout << "Objeto Funcionario construído (default)." << endl;
     }
 
     Funcionario(string nomeFunc, float salarioFunc) {
         nome = nomeFunc;
         salarioAtual = salarioFunc;
         novoSalario = 0.0;
+        cout << "Objeto Funcionario construído: " << nome << endl;
+    }
+
+    ~Funcionario() {
+        cout << "Objeto Funcionario destruído: " << nome << endl;
     }
 
     void calcularAumento(int opcaoCargo) {
@@ -60,6 +66,16 @@ private:
     int numFuncionarios = 0;
 
 public:
+    /*Empresa() {
+        //cout << "Objeto Empresa construído" << endl;
+    }
+
+    ~Empresa() {
+        // Quando o objeto Empresa é destruído, os objetos Funcionario no array são automaticamente destruídos também
+        cout << "Objeto Empresa destruído." << endl;
+    }
+    */
+
     void novoFunc() {
         string nome;
         float salario;
