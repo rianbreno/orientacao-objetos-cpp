@@ -5,28 +5,56 @@ using namespace std;
 
 const int maxFunc = 10;
 
-class Funcionario {
-private:
+
+class Pessoa {
+protected:
     string nome;
-    string cargo;
     float salarioAtual;
+
+public:
+    // Construtor padrao
+    Pessoa() : nome(""), salarioAtual(0.0) {
+        //cout << "Objeto Pessoa construido " << endl;
+    }
+
+    // Construtor com parametros
+    Pessoa(string nomePessoa, float salario) : nome(nomePessoa), salarioAtual(salario) {
+        //cout << "Objeto Pessoa construido: " << nome << endl;
+    }
+
+    // Destrutor
+    virtual ~Pessoa() {
+        //cout << "Objeto Pessoa destruido: " << nome << endl;
+    }
+
+    string getNome() const { return nome; }
+    float getSalarioAtual() const { return salarioAtual; }
+
+};
+
+// Classe Funcionario, herdando publicamente Pessoa
+class Funcionario : public Pessoa {
+private:
+    // Os membros 'nome' e 'salarioAtual' são herdados de Pessoa
+    string cargo;
     float novoSalario;
 
 public:
-    Funcionario() {
-        // Construtor padrão para o array
-        cout << "Objeto Funcionario construído (default)." << endl;
+    // Construtor padrão
+    Funcionario() : Pessoa(), cargo(""), novoSalario(0.0) {
+       // cout << "Objeto Funcionario construido " << endl;
     }
 
-    Funcionario(string nomeFunc, float salarioFunc) {
-        nome = nomeFunc;
-        salarioAtual = salarioFunc;
-        novoSalario = 0.0;
-        cout << "Objeto Funcionario construído: " << nome << endl;
+    // Construtor com parâmetros. Chama explicitamente o construtor da classe base Pessoa.
+    Funcionario(string nomeFunc, float salarioFunc) : Pessoa(nomeFunc, salarioFunc), cargo(""), novoSalario(0.0) {
+
+        // Os membros 'nome' e 'salarioAtual' são inicializados pelo construtor de Pessoa.
+        cout << "Objeto Funcionario construido: " << nome << endl;
     }
 
+    // Destrutor
     ~Funcionario() {
-        cout << "Objeto Funcionario destruído: " << nome << endl;
+        cout << "Objeto Funcionario destruido: " << nome << endl;
     }
 
     void calcularAumento(int opcaoCargo) {
@@ -47,17 +75,16 @@ public:
                 break;
             default:
                 cout << "Opcao de cargo invalida!" << endl;
+                cargo = "Não Definido";
         }
 
         novoSalario = salarioAtual * (1.0 + aumento);
     }
 
-    string getNome() { return nome; }
-    string getCargo() { return cargo; }
-    float getSalarioAtual() { return salarioAtual; }
-    float getNovoSalario() { return novoSalario; }
+    // Os métodos getNome() e getSalarioAtual() são herdados de Pessoa
+    string getCargo() const { return cargo; }
+    float getNovoSalario() const { return novoSalario; }
 };
-
 
 
 class Empresa {
@@ -66,15 +93,6 @@ private:
     int numFuncionarios = 0;
 
 public:
-    /*Empresa() {
-        //cout << "Objeto Empresa construído" << endl;
-    }
-
-    ~Empresa() {
-        // Quando o objeto Empresa é destruído, os objetos Funcionario no array são automaticamente destruídos também
-        cout << "Objeto Empresa destruído." << endl;
-    }
-    */
 
     void novoFunc() {
         string nome;
@@ -83,7 +101,7 @@ public:
 
         cout << "Dados do funcionario " << numFuncionarios + 1 << endl;
         cout << "Informe o nome: ";
-        cin >> nome;
+        getline(cin, nome);
 
         cout << "Informe o salario atual: R$ ";
         cin >> salario;
@@ -95,10 +113,10 @@ public:
         cout << "Escolha uma opcao: ";
         cin >> opcaoCargo;
 
+        // Cria o objeto Funcionario. O construtor chama o construtor de Pessoa.
         Funcionario novo(nome, salario);
         novo.calcularAumento(opcaoCargo);
 
-        // Adiciona o novo objeto Funcionario no array
         funcionarios[numFuncionarios] = novo;
         numFuncionarios++;
     }
@@ -172,6 +190,5 @@ int main() {
     minhaEmpresa.mostrarDadosFuncionarios();
     minhaEmpresa.mostrarEstatisticas();
 
-    cout << "\n";
     return 0;
 }
