@@ -107,6 +107,10 @@ public:
         int opcaoCargo;
 
         cout << "Dados do funcionario " << numFuncionarios + 1 << endl;
+
+        // para evitar ler a quebra de linha deixada pelo 'cin >> continuar' anterior.
+        cin.ignore();
+
         cout << "Informe o nome: ";
         getline(cin, nome);
 
@@ -152,10 +156,10 @@ public:
         }
 
         cout << "\n--- Estatisticas da Empresa ---" << endl;
-        cout << "Número de Gerentes: " << numGerentes << endl;
-        cout << "Número de Engenheiros: " << numEngenheiros << endl;
-        cout << "Custo total atual com salários: R$ " << custoTotalAtual << endl;
-        cout << "Custo total após o aumento: R$ " << custoTotalNovo << endl;
+        cout << "Numero de Gerentes: " << numGerentes << endl;
+        cout << "Numero de Engenheiros: " << numEngenheiros << endl;
+        cout << "Custo total com salarios (antes do aumento): R$ " << custoTotalAtual << endl;
+        cout << "Custo total apos os aumentos: R$ " << custoTotalNovo << endl;
     }
 
     bool limiteAtingido() const {
